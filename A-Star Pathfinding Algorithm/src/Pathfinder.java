@@ -36,20 +36,38 @@ public class Pathfinder
          * make vars for currrent node and constructed path
         */
         
+        
+
+        // for()
+
+        return grid;
+    }
+    
+    private boolean searchNode(byte[][] grid, Node start, Point end){
         ArrayList<Node> accesible = new ArrayList<>();
 
         for(int r  = 0; r < grid.length; r++){
             for(int c = 0; c < grid[0].length; c++){
                 if(Node.accesible(new Point(c,r), start, grid)){
                     accesible.add(new Node(new Point(c,r), start, end));
-                    grid[r][c] = 5;
+                    // grid[r][c] = 5;
                 }
             }
         }
-
-        // for()
-
-        return grid;
+        
+        //sort accesible
+        for(int i = 0; i < accesible.size(); i++){
+            int b_ind = i;
+            for(int j = i+1; j < accesible.size(); j++){
+                if(accesible.get(j).hCost < accesible.get(b_ind).hCost){
+                    b_ind = j;
+                }
+            }
+            Node temp = accesible.get(i);
+            accesible.set(i, accesible.get(b_ind));
+            accesible.set(b_ind, temp);
+        }
+        
+        //add checking for end point in accesible loop and start of recurs case
     }
-
 }
