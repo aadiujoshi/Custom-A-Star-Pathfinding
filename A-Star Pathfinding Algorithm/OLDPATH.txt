@@ -1,0 +1,113 @@
+/*
+        //ACTUALL AI
+        Path p = new Path(start, end);
+        ArrayList<Point> path = p.getPath();
+        
+        for(int i = 0; i < path.size(); i++)
+            grid[(int)path.get(i).getY()][(int)path.get(i).getX()] = 4;
+
+        return grid;*/
+
+
+
+//PATH CLASS
+
+import java.awt.Point;
+import java.util.ArrayList;
+
+public class Path 
+{ 
+    private ArrayList<Point> path;
+    private double m; //slope | null in vertical line
+    private double b; //y intercept | null is none
+
+    public Path(Point s, Point e) //x and y NOT THE GRID ROWS AND COLUMNS     
+    {
+        path = new ArrayList<Point>();
+        int sx = (int)s.getX();
+        int sy = (int) s.getY();
+        int ex = (int) e.getX();
+        int ey = (int) e.getY();
+
+        if(sx == ex)
+        { 
+            isVertical = true;
+            for(int y = sy<ey?(int)sy:(int)ey; y < (sy>ey?(int)sy:(int)ey); y++)
+                path.add(new Point(sx, y));
+            return;
+        }
+
+        m = ((double)sy-ey)/((double)sx-ex);
+        b = -1*((double)m*sx-sy);
+        double x = sx<ex?(int)sx:(int)ex;
+        int endX = sx>ex?(int)sx:(int)ex;
+
+        for( ;x <= endX; x+=.05) //LINE PRECISION (X INCREMENT)
+            path.add(new Point((int)x, (int)Math.round((m*x)+b)));
+    }
+    public boolean illegalPath(byte[][] grid)
+    {
+        for(Point p : path)
+            if(grid[(int) p.getY()][(int) p.getX()] == 1)
+                return true;
+        return false;
+    }
+
+    public void insertPoint() //insert new point and redraw path
+    {
+
+    }
+
+    public ArrayList<Point> getPath() { return path; }
+}
+
+
+//old hcost calculations
+abs(x2-x1)<abs(y2-y1)?
+                    14*abs(y2-y1)+10*abs(abs(x2-x1)-abs(y2-y1)):
+                    14*abs(x2-x1)+10*abs(abs(y2-y1)-abs(x2-x1));
+
+
+
+
+
+
+//old graphics stuff
+
+
+
+        /*
+        Graphics2D g = (Graphics2D) gr;
+        for(int r = 0; r < grid.length; r++) //draw grid
+            for(int c = 0; c < grid[0].length; c++)
+            {
+                if(grid[r][c] == 0) //traversable
+                    g.setColor(Color.WHITE);
+                if(grid[r][c] == 1) //obstacle
+                    g.setColor(Color.RED);
+                if(grid[r][c] == 2) //start
+                    g.setColor(Color.GREEN);
+                if(grid[r][c] == 3) //end
+                    g.setColor(Color.MAGENTA);
+                if(grid[r][c] == 4) //AI path
+                    g.setColor(Color.BLUE);
+                
+                System.out.println(c +"  "+ r  +"  "+ (c)*(gridSpace)+"  "+ (r)*(gridSpace));
+                
+                g.fillRect((c)*(gridSpace), (r)*(gridSpace), 
+                (c)*(gridSpace), (r)*(gridSpace));
+                
+                g.setColor(Color.BLACK);
+                g.setFont(new Font(null, Font.PLAIN, (int)(gridSpace/2.5)));
+                g.drawString(c + "," + r, c*(gridSpace), r*(gridSpace)-3);
+            }
+        
+        g.setStroke(new BasicStroke(1));
+        g.setColor(Color.BLACK);
+        for(int w = gridSpace; w < fWidth; w+=gridSpace) //draw vertical lines
+            g.drawLine(w, 0, w, fHeight);
+        for(int h = gridSpace; h < fHeight; h+=gridSpace) //draw horizontal lines
+            g.drawLine(0, h, fWidth, h);
+        g.dispose();
+        */
+
