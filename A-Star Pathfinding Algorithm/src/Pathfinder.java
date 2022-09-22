@@ -45,7 +45,7 @@ public class Pathfinder
                 //vertically aligned
                 if(sx == ex){
                     for(int y = sy<ey?sy:ey; y < (sy>ey?sy:ey); y++){
-                        grid[y][sx] = 4;
+                        grid[y][sx] = 5;
                     }
                 }
 
@@ -56,7 +56,7 @@ public class Pathfinder
                 int endX = sx>ex?(int)sx:(int)ex;
 
                 for( ;x <= endX; x+=0.01){
-                    grid[(int)Math.round((m*x)+b)][(int)Math.round(x)] = 4;
+                    grid[(int)Math.round((m*x)+b)][(int)Math.round(x)] = 5;
                 }
             }
             n = n.child;
